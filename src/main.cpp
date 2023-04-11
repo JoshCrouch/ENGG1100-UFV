@@ -34,12 +34,14 @@ PSX::PSXDATA PSXdata;
 int PSXerror;
 
 Drive driveSystem(driveEnablePin,driveIn1Pin,driveIn2Pin);
-Fluid fluidSystem(nozzlePin,sLiftPin,pumpPin);
+Fluid fluidSystem(pumpPin);
 
 void setup() {
   //Setup the PSX library
   psx.setupPins(dataPin, cmdPin, attPin, clockPin, 10);
   psx.config(PSXMODE_ANALOG);
+
+  fluidSystem.Begin(nozzlePin,sLiftPin);
 
   // Setup serial communication
   Serial.begin(9600);

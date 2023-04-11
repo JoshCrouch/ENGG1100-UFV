@@ -6,8 +6,8 @@
 
 class Fluid {
     public:
-
-        Fluid(int nozzlePin, int scissorLiftPin, int pumpPin);
+        Fluid(int pumpPin);
+        void Begin(int nozzlePin, int scissorLiftPin);
         void CommonLoop(int scissorLiftSpeed, int nozzleAngle, int pumpSpeed);
 
     private:

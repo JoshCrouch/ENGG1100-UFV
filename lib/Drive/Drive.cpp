@@ -18,7 +18,7 @@ void Drive::CommonLoop(int speed) {
   this->speed = map(speed, 0, 256, -255, 255);
   this->direction = (speed > 0)? true: false; //Forward = true, Backward = false
 
-  analogWrite(this->enablePin, this->speed);
+  analogWrite(this->enablePin, abs(this->speed));
 
   if(this->direction){
     digitalWrite(this->in1, LOW);
