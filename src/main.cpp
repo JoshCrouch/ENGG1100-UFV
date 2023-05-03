@@ -13,10 +13,10 @@ Controls:
 #include <Fluid.h>
 
 //Control
-#define dataPin   53      // Brown wire
-#define cmdPin    51      // Orange wire
-#define attPin    49      // Yellow wire
-#define clockPin  47      // Blue wire
+#define dataPin   53      // Yellow wire
+#define cmdPin    51      // Green wire
+#define attPin    49      // Blue wire
+#define clockPin  47      // Purple wire
 
 //Drive
 #define driveEnablePin 10 //Enable pin for L293D
@@ -55,7 +55,7 @@ void loop() {
     driveSystem.CommonLoop(PSXdata.JoyLeftY);
     fluidSystem.CommonLoop(PSXdata.JoyRightY, PSXdata.JoyRightX, PSXdata.JoyLeftX);
   } else {
-    //Broken
+    Serial.println("No data");
   }
   
   delay(10);

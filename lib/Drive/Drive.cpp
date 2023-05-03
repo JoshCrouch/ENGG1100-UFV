@@ -16,6 +16,7 @@ Drive::Drive(int enablePin, int in1, int in2) { //Constructor
 
 void Drive::CommonLoop(int speed) {
   this->speed = map(speed, 0, 256, -255, 255);
+  Serial.println(this->speed);
   this->direction = (speed > 0)? true: false; //Forward = true, Backward = false
 
   analogWrite(this->enablePin, abs(this->speed));
