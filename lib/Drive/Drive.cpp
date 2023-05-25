@@ -33,7 +33,7 @@ void Drive::CommonLoop(int turn, int buttons) {
   }
 
   _turn = (float)(map((float)turn, 0, 255, -100, 100))/(float)100;
-  _turn_factor = 0.01;
+  _turn_factor = 0.5;
 
   if (_turn > 0) {
     _right_speed = (float)1 - _turn + _turn_factor;
