@@ -3,28 +3,67 @@
 */
 #include <Arduino.h>
 #include <Drive.h>
+#include <PSX.h>
 
-Drive::Drive(int enablePin, int in1, int in2) { //Constructor 
-  this->enablePin = enablePin;
-  this->in1 = in1;
-  this->in2 = in2;
+Drive::Drive(int Ren, int Rin1, int Rin2, int Len, int Lin1, int Lin2) { //Constructor 
+  _Ren = Ren;
+  _Rin1 = Rin1;
+  _Rin2 = Rin2;
+  _Len = Len;
+  _Lin1 = Lin1;
+  _Lin2 = Lin2;
 
-  pinMode(this->enablePin, OUTPUT);
-  pinMode(this->in1, OUTPUT);
-  pinMode(this->in2, OUTPUT);
+  pinMode(_Ren, OUTPUT);
+  pinMode(_Rin1, OUTPUT);
+  pinMode(_Rin2, OUTPUT);
+  pinMode(_Len, OUTPUT);
+  pinMode(_Lin1, OUTPUT);
+  pinMode(_Lin2, OUTPUT);
 }
 
-void Drive::CommonLoop(int speed) {
-  this->speed = map(speed, 0, 256, -255, 255);
-  this->direction = (this->speed > 0) ? true: false; //Forward = true, Backward = false
+void Drive::CommonLoop(int turn, int buttons) {
+  if (buttons == PSXBTN_R2) {
+    _direction.direction = true; //Forward
+    _direction.on = true;
+  } else if (buttons == PSXBTN_L2) {
+    _direction.direction = false; //Backwards
+    _direction.on = true;
+  } else {
+    _direction.on = false;
+  }
 
-  analogWrite(this->enablePin, abs(this->speed));
+  _turn = (float)(map((float)turn, 0, 255, -100, 100))/(float)100;
+  _turn_factor = 0.01;
 
-  if(this->direction){ //Forward
-    digitalWrite(this->in1, LOW);
-    digitalWrite(this->in2, HIGH);
+  if (_turn > 0) {
+    _right_speed = (float)1 - _turn + _turn_factor;
+    _left_speed = _turn + _turn_factor;
+  } else if (_turn < 0) {
+    _left_speed = (float)1 - abs(_turn) + _turn_factor;
+    _right_speed = abs(_turn) + _turn_factor;
+  } else {
+    _left_speed = 1;
+    _right_speed = 1;
+  }
+
+  if (_direction.on) {
+    analogWrite(_Ren, constrain(_right_speed, 0, 1) * 255);
+    analogWrite(_Len, constrain(_left_speed, 0, 1) * 255);
+  } else {
+    analogWrite(_Ren, 0);
+    analogWrite(_Len, 0);
+  }
+
+
+  if(_direction.direction){ //Forward
+    digitalWrite(_Rin1, HIGH);
+    digitalWrite(_Rin2, LOW);
+    digitalWrite(_Lin1, HIGH);
+    digitalWrite(_Lin2, LOW);
   } else {                  //Backwards
-    digitalWrite(this->in1, HIGH);
-    digitalWrite(this->in2, LOW);
+    digitalWrite(_Rin1, LOW);
+    digitalWrite(_Rin2, HIGH);
+    digitalWrite(_Lin1, LOW);
+    digitalWrite(_Lin2, HIGH);
   }
 }

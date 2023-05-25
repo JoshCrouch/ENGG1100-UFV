@@ -14,34 +14,35 @@ Controls:
 #include <Fluid.h>
 
 //Control
-#define dataPin   53      // Yellow wire
-#define cmdPin    51      // Green wire
-#define attPin    49      // Blue wire
-#define clockPin  47      // Purple wire
+#define dataPin   24      // Yellow wire
+#define cmdPin    22      // Green wire
+#define attPin    26      // Blue wire
+#define clockPin  28      // Purple wire
 
 //Drive
-#define driveEnablePin 10 //Enable pin for L293D
-#define driveIn1Pin 9     //Input 1 for L293D
-#define driveIn2Pin 8     //Input 2 for L293D
+#define Ren 10            //Enable pin for L293D
+#define Rin1 9            //Input 1 for L293D
+#define Rin2 8            //Input 2 for L293D
+#define Len 11            //Enable pin for L293D
+#define Lin1 12           //Input 1 for L293D
+#define Lin2 13           //Input 2 for L293D
 
 //Fluid
-#define sLiftPin 3       //Pin for the Scissor Lift servo
-#define tiltPin 5        //Pin for tilt servo
-#define panPin 6         //Pin for pan servo
-#define pumpPin 11        //Pin for the pump mos module
+#define sLiftPin 3        //Pin for the Scissor Lift servo
+#define tiltPin 5         //Pin for tilt servo
+#define panPin 6          //Pin for pan servo
+#define pumpPin 2         //Pin for the pump mos module
+
+//Extras ;)
+#define tonePin 4         //Pin for the speaker
 
 // PSX library setup
 PSX psx;
 PSX::PSXDATA PSXdata;
 int PSXerror;
 
-int sLiftControl;
-int sLiftSpeed = 1;
-int panSpeed = 5;
-int tiltSpeed = 5;
-
-Drive driveSystem(driveEnablePin,driveIn1Pin,driveIn2Pin);
-Fluid fluidSystem(pumpPin, sLiftSpeed, panSpeed, tiltSpeed);
+Drive driveSystem(Ren,Rin1,Rin2,Len,Lin1,Lin2);
+Fluid fluidSystem(pumpPin);
 
 void setup() {
   //Setup the PSX library
@@ -54,24 +55,166 @@ void setup() {
   Serial.begin(9600);
 }
 
+void midi() {
+
+    tone(tonePin, 349, 821.25);
+    delay(912.5);
+    delay(4.16666666667);
+    tone(tonePin, 329, 202.5);
+    delay(225.0);
+    delay(4.16666666667);
+    tone(tonePin, 349, 202.5);
+    delay(225.0);
+    delay(4.16666666667);
+    tone(tonePin, 329, 408.75);
+    delay(454.166666667);
+    delay(4.16666666667);
+    tone(tonePin, 261, 615.0);
+    delay(683.333333333);
+    delay(4.16666666667);
+    tone(tonePin, 220, 202.5);
+    delay(225.0);
+    delay(4.16666666667);
+    tone(tonePin, 293, 408.75);
+    delay(454.166666667);
+    delay(4.16666666667);
+    tone(tonePin, 220, 821.25);
+    delay(912.5);
+    delay(8.33333333333);
+    tone(tonePin, 233, 615.0);
+    delay(683.333333333);
+    delay(4.16666666667);
+    tone(tonePin, 261, 408.75);
+    delay(454.166666667);
+    delay(4.16666666667);
+    tone(tonePin, 261, 202.5);
+    delay(225.0);
+    delay(4.16666666667);
+    tone(tonePin, 349, 821.25);
+    delay(912.5);
+    delay(4.16666666667);
+    tone(tonePin, 391, 202.5);
+    delay(225.0);
+    delay(4.16666666667);
+    tone(tonePin, 440, 202.5);
+    delay(225.0);
+    delay(4.16666666667);
+    tone(tonePin, 523, 408.75);
+    delay(454.166666667);
+    delay(4.16666666667);
+    tone(tonePin, 440, 408.75);
+    delay(454.166666667);
+    delay(8.33333333333);
+    tone(tonePin, 293, 18.75);
+    delay(20.8333333333);
+    delay(8.33333333333);
+    tone(tonePin, 329, 198.75);
+    delay(220.833333333);
+    delay(8.33333333333);
+    tone(tonePin, 293, 821.25);
+    delay(912.5);
+    delay(4.16666666667);
+    tone(tonePin, 220, 202.5);
+    delay(225.0);
+    delay(4.16666666667);
+    tone(tonePin, 195, 26.25);
+    delay(29.1666666667);
+    delay(4.16666666667);
+    tone(tonePin, 184, 821.25);
+    delay(912.5);
+    delay(4.16666666667);
+    tone(tonePin, 220, 408.75);
+    delay(454.166666667);
+    delay(4.16666666667);
+    tone(tonePin, 293, 615.0);
+    delay(683.333333333);
+    delay(8.33333333333);
+    tone(tonePin, 261, 405.0);
+    delay(450.0);
+    delay(8.33333333333);
+    tone(tonePin, 293, 202.5);
+    delay(225.0);
+    delay(4.16666666667);
+    tone(tonePin, 261, 615.0);
+    delay(683.333333333);
+    delay(4.16666666667);
+    tone(tonePin, 233, 615.0);
+    delay(683.333333333);
+    delay(4.16666666667);
+    tone(tonePin, 466, 615.0);
+    delay(683.333333333);
+    delay(4.16666666667);
+    tone(tonePin, 440, 408.75);
+    delay(454.166666667);
+    delay(4.16666666667);
+    tone(tonePin, 466, 202.5);
+    delay(225.0);
+    delay(4.16666666667);
+    tone(tonePin, 440, 615.0);
+    delay(683.333333333);
+    delay(8.33333333333);
+    tone(tonePin, 391, 615.0);
+    delay(683.333333333);
+    delay(4.16666666667);
+    tone(tonePin, 440, 615.0);
+    delay(683.333333333);
+    delay(4.16666666667);
+    tone(tonePin, 349, 408.75);
+    delay(454.166666667);
+    delay(4.16666666667);
+    tone(tonePin, 466, 202.5);
+    delay(225.0);
+    delay(4.16666666667);
+    tone(tonePin, 440, 615.0);
+    delay(683.333333333);
+    delay(4.16666666667);
+    tone(tonePin, 349, 408.75);
+    delay(454.166666667);
+    delay(4.16666666667);
+    tone(tonePin, 466, 202.5);
+    delay(225.0);
+    delay(4.16666666667);
+    tone(tonePin, 415, 615.0);
+    delay(683.333333333);
+    delay(8.33333333333);
+    tone(tonePin, 349, 408.75);
+    delay(454.166666667);
+    delay(4.16666666667);
+    tone(tonePin, 466, 202.5);
+    delay(225.0);
+    delay(4.16666666667);
+    tone(tonePin, 415, 615.0);
+    delay(683.333333333);
+    delay(4.16666666667);
+    tone(tonePin, 349, 615.0);
+    delay(683.333333333);
+    delay(920.833333333);
+    tone(tonePin, 311, 202.5);
+    delay(225.0);
+    delay(4.16666666667);
+    tone(tonePin, 261, 202.5);
+    delay(225.0);
+    delay(8.33333333333);
+    tone(tonePin, 349, 3708.75);
+    delay(4120.83333333);
+
+}
+
 void loop() {
   //Read Controller state
   PSXerror = psx.read(PSXdata);
 
   if(PSXerror == PSXERROR_SUCCESS){
-    if (PSXdata.buttons == PSXBTN_UP){sLiftControl = 1;}
-    else if(PSXdata.buttons == PSXBTN_DOWN){sLiftControl = -1;}
-    else {sLiftControl = 0;}
+    driveSystem.CommonLoop(PSXdata.JoyLeftX, PSXdata.buttons);
+    fluidSystem.CommonLoop(PSXdata.JoyRightX, PSXdata.JoyRightY, PSXdata.buttons);
 
-    if (PSXdata.buttons == PSXBTN_CIRCLE){
-      fluidSystem.ResetPositions();
+    if(PSXdata.buttons == PSXBTN_TRIANGLE){
+      midi();
     }
-
-    driveSystem.CommonLoop(PSXdata.JoyLeftY);
-    fluidSystem.CommonLoop(PSXdata.JoyRightX, PSXdata.JoyRightY, sLiftControl, PSXdata.JoyLeftX);
   } else {
     Serial.println("No data");
   }
   
   delay(10);
 }
+

@@ -6,19 +6,21 @@
 
 class Fluid {
     public:
-        Fluid(int pumpPin, int scissorLiftSpeed, int panSpeed, int tiltSpeed);
+        Fluid(int pumpPin);
         void Begin(int sLiftPin,int tiltPin,int panPin);
-        void CommonLoop(int panInput, int tiltInput, int sLiftInput, int pumpSpeed);
-        void ResetPositions();
+        void CommonLoop(int panInput, int tiltInput, int buttons);
+        void ResetLift();
+        void ResetAim();
 
     private:
-        int scissorLiftSpeed;
-        int panSpeed;
-        int tiltSpeed;
-        int pumpPin;
-        int tiltPosition;
-        int panPosition;
-        int scissorLiftPosition;
+        int _scissorLiftSpeed;
+        int _panSpeed;
+        int _tiltSpeed;
+        int _pumpPin;
+        int _tiltPosition;
+        int _panPosition;
+        int _sLiftDirection;
+        int _scissorLiftPosition;
         Servo pan;
         Servo tilt;
         Servo scissorLift;
